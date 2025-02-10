@@ -30,7 +30,9 @@ void check_expression(struct node *expression, struct symbol_list *scope) {
                 semantic_errors++;
             } else {
                 struct node *arguments = getchild(expression, 1);
-                struct node *parameters = getchild(search_symbol(symbol_table, getchild(expression, 0)->token)->node, 1);
+                struct symbol_list *temp = search_symbol(symbol_table, getchild(expression, 0)->token);
+                expression->type = temp->type;
+                struct node *parameters = getchild(temp->node, 1);
                 if(parameters != NULL && countchildren(arguments) != countchildren(parameters)) {
                     printf("Calling %s (%d:%d) with incorrect arguments\n", getchild(expression, 0)->token, getchild(expression, 0)->token_line, getchild(expression, 0)->token_column);
                     semantic_errors++;
@@ -107,6 +109,8 @@ void check_function(struct node *function) {
     scope->next = NULL;
     check_parameters(getchild(function, 1), scope);
     check_expression(getchild(function, 2), scope);
+
+    search_symbol(symbol_table, id->token)->type = getchild(function, 2)->type;
     /* ToDo: scope should be free'd */
 }
 
