@@ -86,6 +86,25 @@ void show(struct node *node, int depth) {
         show(child->node, depth+1);
 }
 
+void show_with_types(struct node *node, int depth) {
+    int i;
+    for(i = 0; i < depth; i++)
+        printf("__");
+    if(node->token == NULL)
+        if (node->type == no_type)
+            printf("%s\n", category_name[node->category]);
+        else
+            printf("%s - %s\n", category_name[node->category], type_name(node->type));
+    else
+        if(node->type == no_type)
+            printf("%s(%s)\n", category_name[node->category], node->token);
+        else
+            printf("%s(%s) - %s\n", category_name[node->category], node->token, type_name(node->type));
+    struct node_list *child = node->children;
+    while((child = child->next) != NULL)
+        show_with_types(child->node, depth+1);
+}
+
 // free the AST
 void deallocate(struct node *node) {
     if(node != NULL) {

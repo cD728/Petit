@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         errors += check_program(ast);
         if(errors == 0) {
             show_symbol_table();
-            show(ast, 0);
+            show_with_types(ast, 0);
         }
     }
     if(argc <= 1 && errors == 0) {
