@@ -58,6 +58,7 @@ y.output
 y.tab.c
 y.tab.h
 y.vcg
+y.gv
 .DS_Store
 *.save
 *.log
